@@ -1,6 +1,8 @@
 // global HTML elements
 const keyboard = document.getElementById('qwerty');
 const phrase = document.getElementById('phrase');
+const scoreboard = document.getElementById('scoreboard');
+const lives = document.getElementsByClassName('tries');
 let missed = 0;
 
 // hide start screen overlay
@@ -78,5 +80,12 @@ keyboard.addEventListener('click', function(e) {
     userBtn.classList.add('chosen');
   }
   let letterFound = checkLetter(userBtn);
+  // work on this !!!!!!!!
+  if (letterFound === null) {
+    // remove a try from the board
+    missed+= 1;
+    console.log("Null");
+  }
   return letterFound;
+
 });
