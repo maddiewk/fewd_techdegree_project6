@@ -76,6 +76,11 @@ function checkLetter(button) {
   return check;
 }
 
+// function to reset the game
+function resetGame() {
+
+}
+
 // check for a win each time the player presses a button
 function checkWin() {
   let phraseLetters = document.getElementsByClassName('letter');
@@ -84,7 +89,7 @@ function checkWin() {
   if (phraseLetters.length === visLetters.length) {
     startScreen.style.display = '';
     startScreen.className = 'win';
-    startScreen.textContent = 'You Win!!';
+    startScreen.innerHTML = `<h2 class='title'>You Win!!</h2><a class="btn__reset">Restart Game</a>`;
   }
   if (missed >= 5) {
     console.log("You LOSE!");
