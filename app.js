@@ -76,6 +76,21 @@ function checkLetter(button) {
   return check;
 }
 
+// check for a win each time the player presses a button
+function checkWin() {
+  let phraseLetters = document.getElementsByClassName('letter');
+  let visLetters = document.getElementsByClassName('show');
+  // check if number of letters with class 'show' is equal to the number of letters with class 'letters'
+  if (phraseLetters.length === visLetters.length) {
+    startScreen.style.display = '';
+    startScreen.className = 'win';
+    startScreen.textContent = 'You Win!!';
+  }
+  if (missed >= 5) {
+    console.log("You LOSE!");
+  }
+}
+
 keyboard.addEventListener('click', function(e) {
 
   let userBtn = e.target;
@@ -89,6 +104,6 @@ keyboard.addEventListener('click', function(e) {
     missed++;
     lives[missed-1].innerHTML = `<img src="images/lostHeart.png" height="35px" width="30px">`;
   }
+  checkWin();
   return letterFound;
-
 });
