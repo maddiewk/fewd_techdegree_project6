@@ -1,17 +1,17 @@
 // global HTML elements
 const keyboard = document.getElementById('qwerty');
 const phrase = document.getElementById('phrase');
+const phraseUL = document.querySelector('#phrase ul');
 const scoreboard = document.getElementById('scoreboard');
 const lives = document.getElementsByClassName('tries');
-let missed = 0;
-
-// hide start screen overlay
+const headline = document.querySelector('.title');
+const phraseLetters = document.getElementsByClassName('letter');
+const phraseSpaces = document.getElementsByClassName('space');
+const visLetters = document.getElementsByClassName('show');
 const startScreen = document.getElementById('overlay');
 const restartButton = document.querySelector('.btn__reset');
+let missed = 0;
 
-restartButton.addEventListener('click', function() {
-  startScreen.style.display = 'none';
-});
 
 // phrases array
 const phrases = [
@@ -27,9 +27,6 @@ const phrases = [
 ];
 
 // function that randomly chooses a phrase from the phrases array
-// split the chosen phrase into a new array of characters
-// return the new character array
-
 function getRandomPhraseArray(arr) {
   let randomNumber = Math.floor(Math.random() * phrases.length);
   let randomPhrase = phrases[randomNumber].toLowerCase();
@@ -57,9 +54,6 @@ function addPhraseToDisplay(arr) {
   }
 }
 
-// call functions defined above to show phrase length on screen
-const phraseArray = getRandomPhraseArray(phrases);
-addPhraseToDisplay(phraseArray);
 
 
 function checkLetter(button) {
@@ -76,25 +70,45 @@ function checkLetter(button) {
   return check;
 }
 
+// remove previous phrase
+function removePhrase() {
+  for (let i = 0; i < phraseLetters.length; i++) {
+    phraseUL.removeChildElement(phraseLetters[i]);
+  }
+
+}
+
 // function to reset the game
 function resetGame() {
-
+  missed = 0;
+  // removePhrase();
 }
 
 // check for a win each time the player presses a button
 function checkWin() {
-  let phraseLetters = document.getElementsByClassName('letter');
-  let visLetters = document.getElementsByClassName('show');
   // check if number of letters with class 'show' is equal to the number of letters with class 'letters'
   if (phraseLetters.length === visLetters.length) {
-    startScreen.style.display = '';
+    startScreen.style.display = 'block';
     startScreen.className = 'win';
-    startScreen.innerHTML = `<h2 class='title'>You Win!!</h2><a class="btn__reset">Restart Game</a>`;
+    headline.innerHTML = 'You Win!!';
   }
   if (missed >= 5) {
-    console.log("You LOSE!");
+    startScreen.style.display = 'block';
+    startScreen.className = 'lose';
+    headline.innerHTML = 'Game Over!'
   }
 }
+
+// clicking button on start screen resets/starts game
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+restartButton.addEventListener('click', function() {
+  startScreen.style.display = 'none';
+  const phraseArray = getRandomPhraseArray(phrases);
+  addPhraseToDisplay(phraseArray);
+  resetGame();
+});
 
 keyboard.addEventListener('click', function(e) {
 
