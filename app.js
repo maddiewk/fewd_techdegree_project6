@@ -65,26 +65,29 @@ addPhraseToDisplay(phraseArray);
 function checkLetter(button) {
   const letts = document.getElementsByClassName('letter');
   let newArray = Array.from(letts);
+  let check = 'null';
 
   for (let i = 0; i < newArray.length; i++) {
     if (button.textContent === newArray[i].textContent) {
       newArray[i].classList.add('show');
+      check = true;
     }
   }
-  return newArray;
+  return check;
 }
 
 keyboard.addEventListener('click', function(e) {
+
   let userBtn = e.target;
   if (e.target.tagName === 'BUTTON') {
     userBtn.classList.add('chosen');
   }
   let letterFound = checkLetter(userBtn);
-  // work on this !!!!!!!!
-  if (letterFound === null) {
+
+  if (letterFound == 'null') {
     // remove a try from the board
-    missed+= 1;
-    console.log("Null");
+    missed++;
+    lives[missed-1].innerHTML = `<img src="images/lostHeart.png" height="35px" width="30px">`;
   }
   return letterFound;
 
