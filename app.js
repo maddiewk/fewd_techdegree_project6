@@ -4,14 +4,16 @@ const phrase = document.getElementById('phrase');
 const phraseUL = document.querySelector('#phrase ul');
 const scoreboard = document.getElementById('scoreboard');
 const lives = document.getElementsByClassName('tries');
+const heart = document.querySelectorAll('.tries img');
 const headline = document.querySelector('.title');
 const phraseLetters = document.getElementsByClassName('letter');
 const phraseSpaces = document.getElementsByClassName('space');
+const keyRow = document.getElementsByClassName('keyrow');
+const keyButton = document.querySelectorAll('.keyrow button');
 const visLetters = document.getElementsByClassName('show');
 const startScreen = document.getElementById('overlay');
 const restartButton = document.querySelector('.btn__reset');
 let missed = 0;
-
 
 // phrases array
 const phrases = [
@@ -34,13 +36,7 @@ function getRandomPhraseArray(arr) {
   return splitPhrase;
 }
 
-// function that loops through an array of characters
-// inside the loop, for each character in the array, create a list item, put
-// the character inside the list item, and append that list item to the #phrase ul
-// in your HTML.
-// if the character in the array is a letter the function should add the class
-// "letter" to the list item
-
+// function that adds random phrase to the screen
 function addPhraseToDisplay(arr) {
   for (let i = 0; i < arr.length; i++) {
     let letter = document.createElement('li');
@@ -53,8 +49,6 @@ function addPhraseToDisplay(arr) {
     }
   }
 }
-
-
 
 function checkLetter(button) {
   const letts = document.getElementsByClassName('letter');
@@ -70,18 +64,52 @@ function checkLetter(button) {
   return check;
 }
 
-// remove previous phrase
-function removePhrase() {
-  for (let i = 0; i < phraseLetters.length; i++) {
-    phraseUL.removeChildElement(phraseLetters[i]);
-  }
+// -----> Extra credit: reset the board after one game is played
+// take away phrase and replace it with new random phrase
+// reset keyboard so that no keys are 'chosen'
+// hide the letters in the phrase
+// ----------------------------> //
+
+// reset keyboard
+function resetKeyboard() {
 
 }
 
-// function to reset the game
+// replace lives
+function restoreLives() {
+  for (let i = 0; i < lives.length; i++) {
+    if (lives[i].innerHTML === '<img src="images/lostHeart.png" height="35px" width="30px">') {
+      lives[i].innerHTML = '<img src="images/liveHeart.png" height="35px" width="30px">';
+    }
+  }
+}
+
+// remove previous letters
+function removeLetter() {
+  for (let i = 0; i < phraseLetters.length; i++) {
+    if (phraseLetters[i].classList.contains('letter')) {
+      phraseLetters[i].classList.remove('show');
+    }
+  }
+}
+
+// remove previous spaces?
+function removeSpaces() {
+  for (let i = 0; i < phraseSpaces.length; i++) {
+    if (phraseSpaces[i].classList.contains('space')) {
+      phraseSpaces[i].classList.remove('show');
+    }
+  }
+}
+
+// call above functions and reset the game
 function resetGame() {
+  // set missed variable back to 0
   missed = 0;
-  // removePhrase();
+  removeLetter();
+  removeSpaces();
+  resetKeyboard();
+  restoreLives();
 }
 
 // check for a win each time the player presses a button
@@ -90,7 +118,7 @@ function checkWin() {
   if (phraseLetters.length === visLetters.length) {
     startScreen.style.display = 'block';
     startScreen.className = 'win';
-    headline.innerHTML = 'You Win!!';
+    headline.innerHTML = 'You win!';
   }
   if (missed >= 5) {
     startScreen.style.display = 'block';
@@ -100,14 +128,18 @@ function checkWin() {
 }
 
 // clicking button on start screen resets/starts game
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 restartButton.addEventListener('click', function() {
   startScreen.style.display = 'none';
   const phraseArray = getRandomPhraseArray(phrases);
   addPhraseToDisplay(phraseArray);
-  resetGame();
+
+// if keys have been clicked, reset the game
+for (let i = 0; i < keyButton.length; i++) {
+  if (keyButton[i].classList == 'chosen') {
+    resetGame();
+  }
+}
+
 });
 
 keyboard.addEventListener('click', function(e) {
@@ -118,7 +150,7 @@ keyboard.addEventListener('click', function(e) {
   }
   let letterFound = checkLetter(userBtn);
 
-  if (letterFound == 'null') {
+  if (letterFound == 'null' && e.target.tagName === 'BUTTON') {
     // remove a try from the board
     missed++;
     lives[missed-1].innerHTML = `<img src="images/lostHeart.png" height="35px" width="30px">`;
