@@ -18,15 +18,15 @@ let missed = 0;
 
 // phrases array
 const phrases = [
-  'A stitch in time saves nine',
+  'Mind over matter',
   'You are what you eat',
   'Curiosity killed the cat',
   'Diamond in the rough',
-  'Great minds think alike',
+  'Over the moon',
   'Hit the ground running',
   'Mind your Ps and Qs',
   'Break a leg',
-  'Snug as a bug in a rug'
+  'Snug as a bug'
 ];
 
 // function that randomly chooses a phrase from the phrases array
@@ -64,12 +64,6 @@ function checkLetter(button) {
   }
   return check;
 }
-
-// -----> Extra credit: reset the board after one game is played
-// take away phrase and replace it with new random phrase
-// reset keyboard so that no keys are 'chosen'
-// hide the letters in the phrase
-// ----------------------------> //
 
 // reset keyboard
 function resetKeyboard() {
@@ -118,7 +112,6 @@ function resetGame() {
 
 // check for a win each time the player presses a button
 function checkWin() {
-  // check if number of letters with class 'show' is equal to the number of letters with class 'letters'
   if (phraseLetters.length === visLetters.length) {
     startScreen.style.display = 'block';
     startScreen.className = 'win';
@@ -139,9 +132,10 @@ restartButton.addEventListener('click', function() {
   addPhraseToDisplay(phraseArray);
 });
 
+// listen for keyboard clicks
 keyboard.addEventListener('click', function(e) {
-
   let userBtn = e.target;
+
   if (e.target.tagName === 'BUTTON') {
     userBtn.classList.add('chosen');
     userBtn.disabled = true;
@@ -149,7 +143,6 @@ keyboard.addEventListener('click', function(e) {
   let letterFound = checkLetter(userBtn);
 
   if (letterFound == 'null' && e.target.tagName === 'BUTTON') {
-    // remove a try from the board
     missed++;
     lives[missed-1].innerHTML = `<img src="images/lostHeart.png" height="35px" width="30px">`;
   }
