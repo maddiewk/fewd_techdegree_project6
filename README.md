@@ -1,1 +1,1 @@
-# fewd_techdegree_project6
+Create a word guessing game using vanilla Javascript
