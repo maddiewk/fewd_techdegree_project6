@@ -30,7 +30,7 @@ const phrases = [
 ];
 
 // function that randomly chooses a phrase from the phrases array
-function getRandomPhraseArray(arr) {
+const getRandomPhraseArray = (arr) => {
   let randomNumber = Math.floor(Math.random() * phrases.length);
   let randomPhrase = phrases[randomNumber].toLowerCase();
   let splitPhrase = randomPhrase.split('');
@@ -38,7 +38,7 @@ function getRandomPhraseArray(arr) {
 }
 
 // function that adds random phrase to the screen
-function addPhraseToDisplay(arr) {
+const addPhraseToDisplay = (arr) => {
   for (let i = 0; i < arr.length; i++) {
     let letter = document.createElement('li');
     letter.textContent = arr[i];
@@ -51,34 +51,33 @@ function addPhraseToDisplay(arr) {
   }
 }
 
-function checkLetter(button) {
+const checkLetter = (button) => {
   const letts = document.getElementsByClassName('letter');
   let newArray = Array.from(letts);
-  let check = 'null';
+  let show = 'null';
 
   for (let i = 0; i < newArray.length; i++) {
     if (button.textContent === newArray[i].textContent) {
       newArray[i].classList.add('show');
-      check = true;
+      show = true;
     }
   }
-  return check;
+  return show;
 }
 
 // reset keyboard
-function resetKeyboard() {
+const resetKeyboard = () => {
   for (let i = 0; i < keyButton.length; i++) {
     if (keyButton[i].classList.contains('chosen')) {
       keyButton[i].classList.remove('chosen');
     }
   }
-
   let disabledKeys = document.getElementsByTagName('button');
   Array.from(disabledKeys).forEach(disabledKeys => disabledKeys.disabled = false);
 }
 
 // replace lives
-function restoreLives() {
+const restoreLives = () => {
   for (let i = 0; i < lives.length; i++) {
     if (lives[i].innerHTML === '<img src="images/lostHeart.png" height="35px" width="30px">') {
       lives[i].innerHTML = '<img src="images/liveHeart.png" height="35px" width="30px">';
@@ -87,14 +86,14 @@ function restoreLives() {
 }
 
 // remove clicked keys
-function blankKeys() {
+const blankKeys = () => {
   let clearKeys = Array.from(clickedKeys).map(key => key.classList.remove('chosen'));
   let clearLetters = Array.from(phraseLetters).map(letter => letter.classList.remove('show'));
   let clearSpaces = Array.from(phraseSpaces).map(space => space.classList.remove('show'));
 }
 
 // remove previous phrase from the board
-function erasePhrase() {
+const erasePhrase = () => {
   let oldPhrase = Array.from(phraseLetters);
   oldPhrase.map(phrase => phrase.remove());
   let blankSpace = Array.from(phraseSpaces);
@@ -102,7 +101,7 @@ function erasePhrase() {
 }
 
 // reset the game
-function resetGame() {
+const resetGame = () => {
   missed = 0;
   resetKeyboard();
   restoreLives();
@@ -111,7 +110,7 @@ function resetGame() {
 }
 
 // check for a win each time the player presses a button
-function checkWin() {
+const checkWin = () => {
   if (phraseLetters.length === visLetters.length) {
     startScreen.style.display = 'block';
     startScreen.className = 'win';
