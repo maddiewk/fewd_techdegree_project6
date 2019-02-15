@@ -11,6 +11,7 @@ const phraseSpaces = document.getElementsByClassName('space');
 const keyRow = document.getElementsByClassName('keyrow');
 const keyButton = document.querySelectorAll('.keyrow button');
 const visLetters = document.getElementsByClassName('show');
+const clickedKeys = document.getElementsByClassName('chosen');
 const startScreen = document.getElementById('overlay');
 const restartButton = document.querySelector('.btn__reset');
 let missed = 0;
@@ -72,7 +73,14 @@ function checkLetter(button) {
 
 // reset keyboard
 function resetKeyboard() {
+  for (let i = 0; i < keyButton.length; i++) {
+    if (keyButton[i].classList.contains('chosen')) {
+      keyButton[i].classList.remove('chosen');
+    }
+  }
 
+  let disabledKeys = document.getElementsByTagName('button');
+  Array.from(disabledKeys).forEach(disabledKeys => disabledKeys.disabled = false);
 }
 
 // replace lives
@@ -84,32 +92,28 @@ function restoreLives() {
   }
 }
 
-// remove previous letters
-function removeLetter() {
-  for (let i = 0; i < phraseLetters.length; i++) {
-    if (phraseLetters[i].classList.contains('letter')) {
-      phraseLetters[i].classList.remove('show');
-    }
-  }
+// remove clicked keys
+function blankKeys() {
+  let clearKeys = Array.from(clickedKeys).map(key => key.classList.remove('chosen'));
+  let clearLetters = Array.from(phraseLetters).map(letter => letter.classList.remove('show'));
+  let clearSpaces = Array.from(phraseSpaces).map(space => space.classList.remove('show'));
 }
 
-// remove previous spaces?
-function removeSpaces() {
-  for (let i = 0; i < phraseSpaces.length; i++) {
-    if (phraseSpaces[i].classList.contains('space')) {
-      phraseSpaces[i].classList.remove('show');
-    }
-  }
+// remove previous phrase from the board
+function erasePhrase() {
+  let oldPhrase = Array.from(phraseLetters);
+  oldPhrase.map(phrase => phrase.remove());
+  let blankSpace = Array.from(phraseSpaces);
+  blankSpace.map(space => space.remove());
 }
 
-// call above functions and reset the game
+// reset the game
 function resetGame() {
-  // set missed variable back to 0
   missed = 0;
-  removeLetter();
-  removeSpaces();
   resetKeyboard();
   restoreLives();
+  erasePhrase();
+  blankKeys();
 }
 
 // check for a win each time the player presses a button
@@ -130,16 +134,9 @@ function checkWin() {
 // clicking button on start screen resets/starts game
 restartButton.addEventListener('click', function() {
   startScreen.style.display = 'none';
+  resetGame();
   const phraseArray = getRandomPhraseArray(phrases);
   addPhraseToDisplay(phraseArray);
-
-// if keys have been clicked, reset the game
-for (let i = 0; i < keyButton.length; i++) {
-  if (keyButton[i].classList == 'chosen') {
-    resetGame();
-  }
-}
-
 });
 
 keyboard.addEventListener('click', function(e) {
@@ -147,6 +144,7 @@ keyboard.addEventListener('click', function(e) {
   let userBtn = e.target;
   if (e.target.tagName === 'BUTTON') {
     userBtn.classList.add('chosen');
+    userBtn.disabled = true;
   }
   let letterFound = checkLetter(userBtn);
 
