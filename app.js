@@ -26,10 +26,10 @@ const phrases = [
   'Hit the ground running',
   'Mind your Ps and Qs',
   'Break a leg',
-  'Snug as a bug'
+  'Snug as a bug in a rug'
 ];
 
-// function that randomly chooses a phrase from the phrases array
+// randomly choose a phrase from phrases array
 const getRandomPhraseArray = (arr) => {
   let randomNumber = Math.floor(Math.random() * phrases.length);
   let randomPhrase = phrases[randomNumber].toLowerCase();
@@ -37,20 +37,26 @@ const getRandomPhraseArray = (arr) => {
   return splitPhrase;
 }
 
-// function that adds random phrase to the screen
+// add random phrase to the screen
 const addPhraseToDisplay = (arr) => {
   for (let i = 0; i < arr.length; i++) {
     let letter = document.createElement('li');
     letter.textContent = arr[i];
     phrase.appendChild(letter);
+
     if (letter.textContent.includes(' ')) {
       letter.classList.add('space');
+      letter.classList.add('short');
     } else {
       letter.classList.add('letter');
+    }
+    if (arr.length > 23 && letter.classList == 'letter') {
+      letter.classList.add('small');
     }
   }
 }
 
+// match keys user clicks to letters in the random phrase
 const checkLetter = (button) => {
   const letts = document.getElementsByClassName('letter');
   let newArray = Array.from(letts);
@@ -112,12 +118,12 @@ const resetGame = () => {
 // check for a win each time the player presses a button
 const checkWin = () => {
   if (phraseLetters.length === visLetters.length) {
-    startScreen.style.display = 'block';
+    startScreen.style.display = 'flex';
     startScreen.className = 'win';
     headline.innerHTML = 'You win!';
   }
   if (missed >= 5) {
-    startScreen.style.display = 'block';
+    startScreen.style.display = 'flex';
     startScreen.className = 'lose';
     headline.innerHTML = 'Game Over!'
   }

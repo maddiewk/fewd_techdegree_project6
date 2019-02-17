@@ -88,8 +88,23 @@ button {
   border-radius: 5px;
 }
 
+.small {
+  font-size: var(--font-size-medium);
+  height: 55px;
+  width: 55px;
+  padding:  20px 1px 0 1px;
+  margin-right: 2px;
+  color: transparent;
+  background: var(--color-neutral-light);
+  border-radius: 5px;
+}
+
 .space {
   width: 15px;
+}
+
+.short {
+  width: 10px;
 }
 
 .show {
