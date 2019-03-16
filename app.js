@@ -31,8 +31,10 @@ const phrases = [
 
 // randomly choose a phrase from phrases array
 const getRandomPhraseArray = (arr) => {
+  // get a random number from 0 to the length of the phrase array
   let randomNumber = Math.floor(Math.random() * phrases.length);
   let randomPhrase = phrases[randomNumber].toLowerCase();
+  // return random phrase as an array of characters
   let splitPhrase = randomPhrase.split('');
   return splitPhrase;
 }
@@ -46,7 +48,6 @@ const addPhraseToDisplay = (arr) => {
 
     if (letter.textContent.includes(' ')) {
       letter.classList.add('space');
-      letter.classList.add('short');
     } else {
       letter.classList.add('letter');
     }
